@@ -7,6 +7,7 @@ def sql_read(cmd):
     sql = cmd
     print(sql)
 
+    results = None
     try:
         curseur.execute(sql)
         results = curseur.fetchall()
@@ -20,4 +21,5 @@ def sql_read(cmd):
 
     curseur.close()
     db.close()
+
     return results
