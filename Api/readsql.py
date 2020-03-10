@@ -1,10 +1,10 @@
 from Api.connect import connect
 
 
-def sql_read(cmd, *val):
+def sql_read(cmd):
     db = connect()
     curseur = db.cursor()
-    sql = cmd % val
+    sql = cmd
     print(sql)
 
     try:

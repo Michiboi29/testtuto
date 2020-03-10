@@ -5,23 +5,25 @@ def sql_create():
     db = connect()
     curseur = db.cursor()
 
-    tab1 = """CREATE TABLE IF NOT EXISTS EMPLOYEE (
-             FIRST_NAME  CHAR(20) NOT NULL,
-             LAST_NAME  CHAR(20),
+    curseur.execute("DROP TABLE IF EXISTS EMPLOYEE")
+    tab1 = """CREATE TABLE EMPLOYEE (
+             FIRST_NAME  VARCHAR(20),
              AGE INT,  
              SEX CHAR(1),
              INCOME FLOAT )"""
     curseur.execute(tab1)
 
-    tab2 = """CREATE TABLE IF NOT EXIST ami (
-             prenom  CHAR(20) NOT NULL,
-             nom  CHAR(20),
+    curseur.execute("DROP TABLE IF EXISTS ami")
+    tab2 = """CREATE TABLE ami (
+             prenom  VARCHAR(20) NOT NULL,
+             nom  VARCHAR(20),
              age INT,  
              sex CHAR(1))"""
     curseur.execute(tab2)
 
     curseur.close()
     db.close()
+    print('create complete')
 
 
 sql_create()

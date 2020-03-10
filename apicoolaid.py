@@ -1,9 +1,11 @@
 from Api.createsql import sql_create
 from Api.readsql import sql_read
-from Api.insertsql import sql_insert
+from Api.insertsql import sql_insert_ami, sql_insert
 
 
-sql_insert('ami', 'prenom', 'nom', 'age', 'sex', s='etienne', s1='michaud', d=20, c='M')
+sql_insert_ami(nom='mich', prenom='etienne', age=20)
+sql_insert_ami(prenom='bob', age=20, nom='tremblay')
 
-sql_read("SELECT * FROM EMPLOYEE \
-       WHERE INCOME > '%d' AND AGE < '%d'", 50, 1000)
+#sql_insert('EMPLOYEE', LAST_NAME='beaulieu', FIRST_NAME='michel')
+
+sql_read("SELECT * FROM ami")
