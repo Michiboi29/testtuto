@@ -2,7 +2,6 @@ from Api.connect import connect
 
 
 def sql_insert_ami(**atributs):
-
     atributs_list = ['prenom', 'nom', 'age', 'sex']
     atributs_dict = dict(zip(atributs_list, ['NULL'] * len(atributs_list)))
     for i, j in atributs.items():

@@ -9,6 +9,6 @@ sql_insert_ami(prenom='bob', sex='M')
 
 #sql_insert('EMPLOYEE', LAST_NAME='beaulieu', FIRST_NAME='michel')
 
-sql_read("SELECT * FROM ami")
-sql_drop('ami')
-sql_read("SELECT * FROM ami")
+#sql_read("SELECT * FROM ami")
+#sql_drop('ami')
+#sql_read("SELECT * FROM ami")
