@@ -14,7 +14,7 @@ def index():
     user = {'username': toi}
     sql_insert_ami(prenom='etienne', nom='mich', age=20)
     sql_insert_ami(prenom='bob', sex='M')
-    amis = sql_read("SELECT * FROM ami")
+    amis = sql_read("SELECT DISTINCT * FROM ami")
     return render_template('index.html', title='Home', user=user, amis=amis)
 
 
