@@ -5,8 +5,7 @@ def sql_create():
     db = connect()
     curseur = db.cursor()
 
-    curseur.execute("DROP TABLE IF EXISTS EMPLOYEE")
-    tab1 = """CREATE TABLE EMPLOYEE (
+    tab1 = """CREATE TABLE IF NOT EXISTS EMPLOYEE (
              FIRST_NAME  CHAR(20) NOT NULL,
              LAST_NAME  CHAR(20),
              AGE INT,  
@@ -14,8 +13,7 @@ def sql_create():
              INCOME FLOAT )"""
     curseur.execute(tab1)
 
-    curseur.execute("DROP TABLE IF EXISTS ami")
-    tab2 = """CREATE TABLE ami (
+    tab2 = """CREATE TABLE IF NOT EXIST ami (
              prenom  CHAR(20) NOT NULL,
              nom  CHAR(20),
              age INT,  
@@ -24,3 +22,6 @@ def sql_create():
 
     curseur.close()
     db.close()
+
+
+sql_create()
