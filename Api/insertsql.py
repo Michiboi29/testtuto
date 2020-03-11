@@ -32,41 +32,43 @@ def sql_insert_ami(**atributs):
 
 
 def sql_insert(table_name, **atributs):
-    print(atributs)
     atributs_list = sql_columns(table_name)
-    print(atributs_list)
     atributs_dict = dict(zip(atributs_list, ['NULL'] * len(atributs_list)))
-    print(atributs_dict)
     for i, j in atributs.items():
         atributs_dict[i] = j
-    print("atr_dict = ", atributs_dict)
-    atributs_str = ""
-    values = list(atributs_dict.values())
+    format_dict = atributs_dict
+    for i, j in atributs_dict.items():
+        if j != 'NULL':
+            format_dict[i] = '%s'
 
-    val = ""
+    print("atr_dict = ", atributs_dict)
+    print("form_dict = ", format_dict)
+    atributs_str = ""
+    format_val = ""
     for i in atributs_list:
-        val += '{' + i + '}'
+        format_val += '{' + i + '}'
         if atributs_list.index(i) < len(atributs_list) - 1:
-            val += ', '
+            format_val += ', '
+
     for i in atributs_list:
         atributs_str += i
         if atributs_list.index(i) < len(atributs_list) - 1:
             atributs_str += ', '
 
-    print("val =", val)
+    print("val =", format_val)
     print("atri_str= ", atributs_str)
 
     db = connect()
     curseur = db.cursor()
 
     sql = "INSERT INTO " + table_name + " (" + atributs_str + ") \
-       VALUES (" + val + ")"
+       VALUES (" + format_val + ")"
     print(sql)
-    print(atributs)
-    sql_formate = sql.format(**atributs_dict)
-    print(sql_formate)
+    sql = sql.format(**format_dict)
+    valeurs = list(atributs.values())
+    print(sql, valeurs)
 
-    curseur.execute(sql_formate)
+    curseur.execute(sql, valeurs)
     db.commit()
     print(curseur.rowcount, "record inserted.")
 
