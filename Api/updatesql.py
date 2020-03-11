@@ -1,5 +1,4 @@
 from Api.connect import connect
-from Api.sql_columns import sql_columns
 
 
 def sql_update(table_name, set, valset, where):
