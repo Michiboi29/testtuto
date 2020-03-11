@@ -1,27 +1,33 @@
 from Api.connect import connect
+from Api.sql_columns import sql_columns
 
 
 def sql_read(table_name, cmd):
     db = connect()
     curseur = db.cursor()
-    sql = "SHOW COLUMNS FROM {}".format(table_name)
     print(cmd)
-    print(sql)
 
-    results = None
+    colomns = sql_columns(table_name)
+
+    valeur = None
+    result = []
     try:
 
         curseur.execute(cmd)
-        results = curseur.fetchall()
-        print(results)
-        for row in results:
+        valeur = curseur.fetchall()
+        print(colomns)
+        for row in valeur:
             # Now print fetched result
             print(row)
+            dictio = dict(zip(colomns, row))
+            result.append(dictio)
 
     except:
         print("Error: unable to fecth data")
 
+    print(result)
+
     curseur.close()
     db.close()
 
-    return results
+    return result
