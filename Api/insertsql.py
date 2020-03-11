@@ -73,9 +73,8 @@ def sql_insert(table_name, **atributs):
     print(curseur.rowcount, "record inserted.")
 
     #except:
-      #  print("ereurr")
+      #  print("ereur")
        # db.rollback()
 
     curseur.close()
     db.close()
-
