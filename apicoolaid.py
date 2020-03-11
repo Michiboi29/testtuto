@@ -10,7 +10,7 @@ sql_create()
 #sql_insert_ami(prenom='bob', sex='M')
 
 sql_insert('ami', prenom='guillaume', nom='laprise', age=20)
-sql_update('ami', 'prenom', 'max', nom='laprise', age=20)
-#sql_read('ami', "SELECT * FROM ami")
+sql_update('ami', 'prenom', "max", "nom = 'laprise' AND age < 30")
+sql_read('ami', "SELECT DISTINCT * FROM ami")
 
 #sql_read("SELECT * FROM ami")
