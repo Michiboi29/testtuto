@@ -1,15 +1,17 @@
 from Api.connect import connect
 
 
-def sql_read(cmd):
+def sql_read(table_name, cmd):
     db = connect()
     curseur = db.cursor()
-    sql = cmd
+    sql = "SHOW COLUMNS FROM {}".format(table_name)
+    print(cmd)
     print(sql)
 
     results = None
     try:
-        curseur.execute(sql)
+
+        curseur.execute(cmd)
         results = curseur.fetchall()
         print(results)
         for row in results:

@@ -21,7 +21,6 @@ def sql_create():
 
     curseur.close()
     db.close()
-    print('create complete')
 
 
 sql_create()
