@@ -5,7 +5,7 @@ from Api.sql_columns import sql_columns
 def sql_read(table_name, cmd):
     db = connect()
     curseur = db.cursor()
-    print(cmd)
+    print("Reads:", cmd)
 
     colomns = sql_columns(table_name)
 

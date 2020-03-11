@@ -7,6 +7,7 @@ def sql_create():
 
     tab1 = """CREATE TABLE IF NOT EXISTS EMPLOYEE (
              FIRST_NAME  VARCHAR(20),
+             LAST_NAME VARCHAR(20),
              AGE INT,  
              SEX CHAR(1),
              INCOME FLOAT )"""

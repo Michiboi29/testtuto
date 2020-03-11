@@ -12,5 +12,6 @@ def sql_columns(table_name):
         atributs.append(colomns[i][0])
     curseur.close()
     db.close()
+    print(atributs)
 
     return atributs

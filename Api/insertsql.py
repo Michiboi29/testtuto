@@ -1,4 +1,5 @@
 from Api.connect import connect
+from Api.sql_columns import sql_columns
 
 
 def sql_insert_ami(**atributs):
@@ -30,21 +31,31 @@ def sql_insert_ami(**atributs):
     db.close()
 
 
-"""def sql_insert(table_name, **atributs):
-    
-
-    atributs_list = list(atributs)
+def sql_insert(table_name, **atributs):
+    print(atributs)
+    atributs_list = sql_columns(table_name)
+    print(atributs_list)
+    atributs_dict = dict(zip(atributs_list, ['NULL'] * len(atributs_list)))
+    print(atributs_dict)
+    for i, j in atributs.items():
+        atributs_dict[i] = j
+    print("atr_dict = ", atributs_dict)
     atributs_str = ""
-    values = list(atributs.values())
+    values = list(atributs_dict.values())
+
     val = ""
-    for i in values:
+    for i in atributs_list:
         val += '{' + i + '}'
-        if values.index(i) < len(values) - 1:
+        if atributs_list.index(i) < len(atributs_list) - 1:
             val += ', '
     for i in atributs_list:
         atributs_str += i
         if atributs_list.index(i) < len(atributs_list) - 1:
             atributs_str += ', '
+
+    print("val =", val)
+    print("atri_str= ", atributs_str)
+
     db = connect()
     curseur = db.cursor()
 
@@ -52,16 +63,17 @@ def sql_insert_ami(**atributs):
        VALUES (" + val + ")"
     print(sql)
     print(atributs)
-    sql_formate = sql.format(**atributs)
+    sql_formate = sql.format(**atributs_dict)
     print(sql_formate)
-    try:
-        curseur.execute(sql_formate)
-        db.commit()
-        print(curseur.rowcount, "record inserted.")
-    except:
-        print("ereurr")
-        db.rollback()
+
+    curseur.execute(sql_formate)
+    db.commit()
+    print(curseur.rowcount, "record inserted.")
+
+    #except:
+      #  print("ereurr")
+       # db.rollback()
 
     curseur.close()
     db.close()
-"""
+
