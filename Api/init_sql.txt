@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS EMPLOYEE (
+             FIRST_NAME  VARCHAR(20),
+             LAST_NAME VARCHAR(20),
+             AGE INT,
+             SEX CHAR(1),
+             INCOME FLOAT );
+
+CREATE TABLE IF NOT EXISTS ami (
+             prenom  VARCHAR(20) NOT NULL,
+             nom  VARCHAR(20),
+             age INT,
+             sex CHAR(1))
