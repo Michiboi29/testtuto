@@ -1,8 +1,7 @@
 from application import app
 from flask import render_template, flash, redirect, url_for, request
 from application.forms import LoginForm
-from Api.readsql import sql_read
-from Api.insertsql import sql_insert_ami
+from Api.sql_fonctions import sql_read, sql_insert
 
 @app.route('/')
 @app.route('/index')
@@ -12,9 +11,9 @@ def index():
         toi = 'inconnu'
     global user
     user = {'username': toi}
-    sql_insert_ami(prenom='etienne', nom='mich', age=20)
-    sql_insert_ami(prenom='bob', sex='M')
-    amis = sql_read("SELECT DISTINCT * FROM ami")
+    sql_insert('ami', prenom='etienne', nom='mich', age=20)
+    sql_insert('ami', prenom='bob', sex='M')
+    amis = sql_read('ami', distinct=True)
     return render_template('index.html', title='Home', user=user, amis=amis)
 
 

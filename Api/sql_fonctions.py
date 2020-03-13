@@ -47,11 +47,15 @@ def sql_insert(table_name, **atributs):
     db.close()
 
 
-def sql_delete(table_name, where):
+def sql_delete(table_name, where=None):
 
-    sql = "DELETE FROM {0} \
-            WHERE {1}"
-    sql = sql.format(table_name, where)
+    sql = "DELETE FROM {0}"
+    sql = sql.format(table_name)
+
+    if where is not None:
+        where = " WHERE " + where
+    sql += where
+    print(sql)
 
     db = connect()
     curseur = db.cursor()
@@ -76,22 +80,29 @@ def sql_drop(table_name):
         print('table ' + table_name + ' drop!')
 
 
-def sql_update(table_name, set, valset, where=None):
+def sql_update(table_name, where=None, **set_val):
 
-    sql = "UPDATE {0} \
-            SET {1} = %s"
-    sql = sql.format(table_name, set)
+    sql = "UPDATE {0} SET "
+    sql = sql.format(table_name)
+
+    set_liste = list(set_val)
+    val_liste = list(set_val.values())
+    sets = ""
+    for t, val in set_val.items():
+        sets += t + " = %s"
+        if set_liste.index(t) < len(set_liste) - 1:
+            sets += ', '
+    sql += sets
 
     if where is not None:
         where = " WHERE " + where
     sql += where
 
-    valset = [valset]
-    print(sql, valset)
+    print(sql, val_liste)
 
     db = connect()
     curseur = db.cursor()
-    curseur.execute(sql, valset)
+    curseur.execute(sql, val_liste)
     db.commit()
     print(curseur.rowcount, "record(s) affected")
 
@@ -99,7 +110,7 @@ def sql_update(table_name, set, valset, where=None):
     db.close()
 
 
-def sql_read(table_name, select="*", distinct=False, where=None):
+def sql_read(table_name, select="*", distinct=False, where=None, groupby=None,having=None, orderby=None):
 
     dist = " "
     if distinct:
@@ -110,6 +121,15 @@ def sql_read(table_name, select="*", distinct=False, where=None):
     if where is not None:
         where = " WHERE " + where
         sql += where
+    if groupby is not None:
+        groupby = " GROUP BY " + groupby
+        sql += groupby
+    if having is not None:
+        having = " ORDER BY " + having
+        sql += having
+    if orderby is not None:
+        orderby = " ORDER BY " + orderby
+        sql += orderby
 
     print("Reads:", sql)
 
@@ -121,7 +141,7 @@ def sql_read(table_name, select="*", distinct=False, where=None):
         for col in sections:
             if col == "fin":
                 break
-            if sections[(sections.index(col) + 1)] != "AS" and col != "AS":
+            if sections[(sections.index(col) + 1)] != "AS" and col != "AS" and sections[(sections.index(col) + 1)] != "as" and col != "as":
                 col = col.replace(',', '')
                 colomns.append(col)
 
@@ -160,33 +180,34 @@ def sql_comand(cmd):
     for i in cmd.split():
         if f:
             table_name = i
-        if i == "FROM":
+        if i == "FROM" or i == "from":
             f = True
 
     opperation = cmd.split()[0]
 
     curseur.execute(cmd)
-    if opperation == "SELECT":
+    if opperation == "SELECT" or opperation == "select":
         f = False
         s = False
         select = ""
         for i in cmd.split():
-            if i == "FROM":
+            if i == "FROM" or i == "from":
                 f = True
             if s and not f:
                 select += " " + i
-            if i == "SELECT":
+            if i == "SELECT" or i == "select":
                 s = True
 
         colomns = sql_columns(table_name)
         sections = select.split()
-        if sections[0] != "*" and sections[0] != "DISTINCT":
+        if sections[0] != "*" and sections[0] != "DISTINCT" and sections[0] != "distinct":
             colomns = []
             sections.append("fin")
             for col in sections:
                 if col == "fin":
                     break
-                if sections[(sections.index(col) + 1)] != "AS" and col != "AS":
+                if sections[(sections.index(col) + 1)] != "AS" and col != "AS" and sections[(sections.index(col) + 1)] != "as" and col != "as":
+
                     col = col.replace(',', '')
                     colomns.append(col)
 
