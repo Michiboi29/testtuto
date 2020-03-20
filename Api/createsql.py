@@ -2,13 +2,17 @@ from Api.connect import connect
 
 
 def sql_create():
-    with open('Api\init_sql.txt', 'r') as file:
-        data = file.read().replace('\n', '')
-    print(data)
-
     db = connect()
     curseur = db.cursor()
-    curseur.execute(data, multi=True)
+
+    file = open('Api\init_db.sql', 'r')
+    sql = file.read()
+    for table in sql.split(';'):
+        if table.strip():
+            curseur.execute(table)
+
+    db.commit()
+
     curseur.close()
     db.close()
 
